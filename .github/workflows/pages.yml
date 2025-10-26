@@ -1,4 +1,4 @@
-name: Deploy Astro to GitHub Pages
+name: Deploy Astro (npm) to GitHub Pages
 on:
   push:
     branches: [main]
@@ -15,14 +15,16 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: pnpm/ac tion-setup@v4
-        with: { version: 9 }
+      - name: Use Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
       - name: Install deps
-        run: pnpm install --frozen-lockfile
+        run: npm ci
       - name: Build
-        run: pnpm build
+        run: npm run build
       - name: Pagefind index
-        run: pnpm postbuild
+        run: npm run postbuild
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
